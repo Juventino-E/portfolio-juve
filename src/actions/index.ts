@@ -50,43 +50,63 @@ export const server = {
           });
         }
       }),
-    handler: async ({ userFirstname, email, lang }) => {
-      try {
-        const emailTexts = translations[lang].email;
-        const emailContent = ContactEmail({
-          userFirstname,
-          texts: emailTexts,
-          lang,
-        });
+   handler: async ({ userFirstname, email, lang }) => {
+  try {
+    const emailTexts = translations[lang].email;
+    
+    // ✅ Estos logs básicos SÍ funcionan
+    console.log("RESEND_FROM:", import.meta.env.RESEND_FROM);
+    console.log("PORTFOLIO_BCC:", import.meta.env.PORTFOLIO_BCC);
+    console.log("Target email:", email);
+    console.log("API Key present:", !!import.meta.env.RESEND_API_KEY);
+    
+    const emailContent = ContactEmail({
+      userFirstname,
+      texts: emailTexts,
+      lang,
+    });
 
-        const html = await render(emailContent);
-        const text = await render(emailContent, { plainText: true });
+    const html = await render(emailContent);
+    const text = await render(emailContent, { plainText: true });
 
-        const { data, error } = await resend.emails.send({
-          from: import.meta.env.RESEND_FROM,
-          to: [email],
-          bcc: import.meta.env.PORTFOLIO_BCC
-            ? [import.meta.env.PORTFOLIO_BCC]
-            : undefined,
-          subject: emailTexts.subject,
-          html,
-          text,
-        });
+    console.log("📧 Sending email:", {
+      from: import.meta.env.RESEND_FROM,
+      to: email,
+      subject: emailTexts.subject,
+      hasHtml: !!html,
+      hasText: !!text,
+    });
 
-        if (error) {
-          throw new ActionError({
-            code: "BAD_REQUEST",
-            message: error.message,
-          });
-        }
+    const { data, error } = await resend.emails.send({
+      from: import.meta.env.RESEND_FROM,
+      to: [email],
+      bcc: import.meta.env.PORTFOLIO_BCC
+        ? [import.meta.env.PORTFOLIO_BCC]
+        : undefined,
+      subject: emailTexts.subject,
+      html,
+      text,
+    });
 
-        return data;
-      } catch (err: any) {
-        throw new ActionError({
-          code: "BAD_REQUEST",
-          message: err?.message || "Error al enviar el correo",
-        });
-      }
-    },
+    if (error) {
+      console.error("❌ Resend error:", error);
+      throw new ActionError({
+        code: "BAD_REQUEST",
+        message: error.message,
+      });
+    }
+
+    // ✅ Log seguro - solo el ID, no todo el objeto data
+    console.log("✅ Email sent successfully. ID:", data?.id);
+    return data;
+    
+  } catch (err: any) {
+    console.error("❌ Handler error:", err?.message || err);
+    throw new ActionError({
+      code: "BAD_REQUEST",
+      message: err?.message || "Error al enviar el correo",
+    });
+  }
+},
   }),
 };
