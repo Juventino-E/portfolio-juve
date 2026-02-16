@@ -7,6 +7,14 @@ export default defineConfig({
   output: "server",
   adapter: vercel(),
 
+    vite: {
+    server: {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      }
+    }
+  },
+
   i18n: {
     defaultLocale: 'es',
     locales: ['es', 'en'],
