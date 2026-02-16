@@ -100,7 +100,7 @@ const { t, lang = "es" } = Astro.props;
 
       <div class="contact-form animate-on-scroll slide-in-right">
 
-      <form id="contactForm" method="post">
+      <form id="contactForm" method="post" action="/_actions/send">
         <input type="hidden" name="lang" value={lang} />
 
         <div class="form-group">
@@ -144,7 +144,10 @@ const { t, lang = "es" } = Astro.props;
 </section>
 
 <script>
+
+  console.log("🔥 SCRIPT LOADED!");
 import { actions } from "astro:actions";
+console.log("✅ Actions imported:", actions);
 
 const form = document.getElementById("contactForm");
 const messageEl = document.getElementById("formMessage");
