@@ -1,0 +1,407 @@
+---
+interface Props {
+  t: any;
+}
+
+const { t } = Astro.props;
+
+const passionPoints = [
+  { icon: 'target', title: t.passion.points.focus.title, desc: t.passion.points.focus.desc },
+  { icon: 'lightbulb', title: t.passion.points.innovation.title, desc: t.passion.points.innovation.desc },
+  { icon: 'rocket', title: t.passion.points.speed.title, desc: t.passion.points.speed.desc },
+  { icon: 'palette', title: t.passion.points.design.title, desc: t.passion.points.design.desc }
+];
+
+const techCategories = [
+  {
+    category: 'Frontend',
+    technologies: [
+      { name: 'Vue.js', icon: 'vuedotjs', color: '#4FC08D' },
+      { name: 'JavaScript', icon: 'javascript', color: '#F7DF1E' },
+      { name: 'Astro', icon: 'astro',  color: '#7B42BC'  },
+      { name: 'Tailwind CSS', icon: 'tailwindcss', color: '#06B6D4' }
+    ]
+  },
+  {
+    category: 'Backend',
+    technologies: [
+      { name: 'Laravel', icon: 'laravel', color: '#FF2D20' },
+      { name: 'Django', icon: 'django', color: '#092E20' },
+      { name: 'PHP', icon: 'php', color: '#777BB4' },
+      { name: 'Python', icon: 'python', color: '#3776AB' }
+    ]
+  },
+  {
+    category: 'Database',
+    technologies: [
+      { name: 'MySQL', icon: 'mysql', color: '#4479A1' },
+      { name: 'PostgreSQL', icon: 'postgresql', color: '#4169E1' },
+      { name: 'Redis', icon: 'Redis', color: '#FF2D20'}
+    ]
+  },
+  {
+    category: 'Cloud & DevOps',
+    technologies: [
+      { name: 'AWS', icon: 'amazonaws', color: '#FF9900' },
+      { name: 'Docker', icon: 'docker', color: '#2496ED' },
+      { name: 'Terraform', icon: 'terraform', color: '#7B42BC' },
+      { name: 'Git', icon: 'git', color: '#F05032' }
+    ]
+  }
+];
+---
+
+<style>
+  .content-section {
+    position: relative;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+  }
+
+  .section-header h2 {
+    margin-bottom: var(--space-sm);
+    position: relative;
+    display: inline-block;
+  }
+
+  .section-header h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-accent), var(--color-accent-secondary));
+  }
+
+  .section-description {
+    max-width: 700px;
+    margin: 0 auto;
+    font-size: 1.1rem;
+    color: var(--color-muted);
+    line-height: 1.8;
+  }
+
+  .passion-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+  }
+
+  .passion-card {
+    padding: var(--space-lg);
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: 15px;
+    text-align: center;
+    transition: all var(--transition-medium);
+  }
+
+  .passion-card:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  .passion-icon {
+    width: 3rem;
+    height: 3rem;
+    margin: 0 auto var(--space-sm);
+    display: block;
+    color: var(--color-accent);
+    filter: grayscale(1);
+    transition: filter var(--transition-medium);
+  }
+
+  .passion-card:hover .passion-icon {
+    filter: grayscale(0);
+    color: var(--color-accent);
+  }
+
+  .passion-title {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: var(--space-xs);
+    color: var(--color-text);
+  }
+
+  .passion-desc {
+    font-size: 0.95rem;
+    color: var(--color-muted);
+  }
+
+  /* Working Section - New Categorized Layout */
+  .tech-categories {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-lg);
+    margin-top: var(--space-xl);
+  }
+
+  .tech-category-card {
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: 20px;
+    padding: var(--space-lg);
+    transition: all var(--transition-medium);
+  }
+
+  .tech-category-card:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+  }
+
+  .category-title {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: var(--space-md);
+    color: var(--color-accent);
+    text-align: center;
+    padding-bottom: var(--space-sm);
+    border-bottom: 2px solid var(--color-border);
+  }
+
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-sm);
+  }
+
+  .tech-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-sm);
+    background: var(--color-bg);
+    border: 2px solid var(--color-border);
+    border-radius: 12px;
+    transition: all var(--transition-fast);
+    cursor: pointer;
+    min-height: 70px;
+  }
+
+  .tech-item:hover {
+    border-color: var(--tech-color);
+    background: var(--tech-color);
+    transform: scale(1.05);
+  }
+
+  .tech-icon-large {
+    width: 28px;
+    height: 28px;
+    margin-bottom: 6px;
+    transition: all var(--transition-fast);
+  }
+
+  .tech-item:hover .tech-icon-large {
+    filter: brightness(0) invert(1);
+    transform: scale(1.1);
+  }
+
+  .tech-name {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-text);
+    transition: color var(--transition-fast);
+    text-align: center;
+  }
+
+  .tech-item:hover .tech-name {
+    color: white;
+  }
+
+  /* Future Section */
+  .future-content {
+    max-width: 800px;
+    margin: var(--space-lg) auto 0;
+  }
+
+  .future-timeline {
+    position: relative;
+    padding-left: var(--space-lg);
+  }
+
+  .future-timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, var(--color-accent), var(--color-accent-secondary));
+  }
+
+  .timeline-item {
+    margin-bottom: var(--space-lg);
+    position: relative;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: calc(-1 * var(--space-lg) - 6px);
+    top: 0;
+    width: 15px;
+    height: 15px;
+    background: var(--color-accent);
+    border-radius: 50%;
+    border: 3px solid var(--color-bg);
+  }
+
+  .timeline-title {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: var(--space-xs);
+    color: var(--color-accent);
+  }
+
+  .timeline-desc {
+    color: var(--color-muted);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 768px) {
+    .passion-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .tech-categories {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .tech-categories {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1025px) {
+    .tech-categories {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
+
+<!-- Passion Section -->
+<section id="passion" class="section content-section">
+  <div class="container">
+    <div class="section-header animate-on-scroll fade-in-up">
+      <h2>{t.passion.title}</h2>
+      <p class="section-description">{t.passion.content}</p>
+    </div>
+    <div class="passion-grid">
+      {passionPoints.map((point, index) => (
+        <div class="passion-card animate-on-scroll scale-in" style={`animation-delay: ${index * 0.1}s`}>
+          <svg class="passion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            {point.icon === 'target' && (
+              <>
+                <circle cx="12" cy="12" r="10"/>
+                <circle cx="12" cy="12" r="6"/>
+                <circle cx="12" cy="12" r="2"/>
+              </>
+            )}
+            {point.icon === 'lightbulb' && (
+              <>
+                <path d="M9 18h6"/>
+                <path d="M10 22h4"/>
+                <path d="M15.09 14c.18-.98.45-1.95.45-3a6 6 0 0 0-12 0c0 1.05.27 2.02.45 3"/>
+                <path d="M9 14h6"/>
+              </>
+            )}
+            {point.icon === 'rocket' && (
+              <>
+                <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+                <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+                <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
+                <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
+              </>
+            )}
+            {point.icon === 'palette' && (
+              <>
+                <circle cx="13.5" cy="6.5" r=".5"/>
+                <circle cx="17.5" cy="10.5" r=".5"/>
+                <circle cx="8.5" cy="7.5" r=".5"/>
+                <circle cx="6.5" cy="12.5" r=".5"/>
+                <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
+              </>
+            )}
+          </svg>
+          <h3 class="passion-title">{point.title}</h3>
+          <p class="passion-desc">{point.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Working Section -->
+<section id="working" class="section content-section">
+  <div class="container">
+    <div class="section-header animate-on-scroll fade-in-up">
+      <h2>{t.working.title}</h2>
+      <p class="section-description">{t.working.content}</p>
+    </div>
+    <div class="tech-categories">
+      {techCategories.map((category, catIndex) => (
+        <div class="tech-category-card animate-on-scroll scale-in" style={`animation-delay: ${catIndex * 0.1}s`}>
+          <h3 class="category-title">{category.category}</h3>
+          <div class="tech-grid">
+            {category.technologies.map((tech, techIndex) => (
+              <div 
+                class="tech-item" 
+                style={`--tech-color: ${tech.color}; animation-delay: ${(catIndex * 0.1) + (techIndex * 0.05)}s`}
+              >
+                {<img 
+                  loading="lazy"
+                  decoding="async"
+                  src={`https://cdn.simpleicons.org/${tech.icon}`}
+                  alt={tech.name}
+                  class="tech-icon-large"
+                />}
+                <span class="tech-name">{tech.name}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Future Section -->
+<section id="future" class="section content-section">
+  <div class="container">
+    <div class="section-header animate-on-scroll fade-in-up">
+      <h2>{t.future.title}</h2>
+      <p class="section-description">{t.future.content}</p>
+    </div>
+    <div class="future-content animate-on-scroll slide-in-left">
+      <div class="future-timeline">
+        <div class="timeline-item">
+          <h3 class="timeline-title">{t.future.timeline.short.title}</h3>
+          <p class="timeline-desc">{t.future.timeline.short.desc}</p>
+        </div>
+        <div class="timeline-item">
+          <h3 class="timeline-title">{t.future.timeline.medium.title}</h3>
+          <p class="timeline-desc">{t.future.timeline.medium.desc}</p>
+        </div>
+        <div class="timeline-item">
+          <h3 class="timeline-title">{t.future.timeline.long.title}</h3>
+          <p class="timeline-desc">{t.future.timeline.long.desc}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

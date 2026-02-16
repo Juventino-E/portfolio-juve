@@ -1,0 +1,100 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  lang?: 'es' | 'en';
+}
+
+const { 
+  title = 'Portfolio - Desarrollador Full Stack', 
+  description = 'Portfolio personal de un desarrollador Full Stack apasionado por crear experiencias web excepcionales.',
+  lang = 'es'
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang={lang} data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content={description}>
+  <meta name="generator" content={Astro.generator}>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="author" content="Juventino Eduardo Martínez Hernández">
+  <meta name="keywords" content="desarrollador, full stack, web developer, portfolio, Vue.js, JavaScript, Astro, Tailwind CSS, Laravel, Django, PHP, Python, MySQL, PostgreSQL, Redis, AWS, Docker, Terraform, Git">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content={title}>
+  <meta property="og:description" content={description}>
+  <meta property="og:site_name" content="Portfolio">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content={title}>
+  <meta name="twitter:description" content={description}>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <title>{title}</title>
+  
+  <script is:inline>
+    // Theme initialization (prevent flash)
+    const theme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+  </script>
+</head>
+<body>
+  <slot />
+  
+  <script>
+    // Scroll animations observer
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -100px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.animate-on-scroll').forEach((el) => {
+      observer.observe(el);
+    });
+
+    // Smooth scroll for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Handle hash in URL on page load (for language switching)
+    window.addEventListener('load', () => {
+      if (window.location.hash) {
+        // Small delay to ensure page is fully rendered
+        setTimeout(() => {
+          const target = document.querySelector(window.location.hash);
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 100);
+      }
+    });
+  </script>
+</body>
+</html>

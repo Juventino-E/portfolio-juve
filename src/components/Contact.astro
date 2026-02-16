@@ -1,0 +1,221 @@
+---
+
+import { actions } from "astro:actions";
+
+const result = Astro.getActionResult(actions.send);
+
+interface Props {
+  t: any;
+  lang?: "es" | "en";
+}
+
+const { t, lang = "es" } = Astro.props;
+---
+
+<style>
+.contact-section { background: var(--color-surface); position: relative; }
+.section-header { text-align: center; margin-bottom: var(--space-xl); }
+.section-header h2 { margin-bottom: var(--space-sm); position: relative; display: inline-block; }
+.section-header h2::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 60%; height: 4px; background: linear-gradient(90deg, var(--color-accent), var(--color-accent-secondary)); }
+.section-subtitle { font-size: 1.1rem; color: var(--color-muted); }
+.contact-container { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xl); max-width: 1000px; margin: 0 auto; }
+.contact-info { display: flex; flex-direction: column; gap: var(--space-lg); }
+.info-item { display: flex; align-items: start; gap: var(--space-md); padding: var(--space-md); background: var(--color-bg); border: 2px solid var(--color-border); border-radius: 15px; transition: all var(--transition-medium); }
+.info-item:hover { border-color: var(--color-accent); transform: translateX(10px); }
+.info-icon { width: 2rem; height: 2rem; flex-shrink: 0; color: var(--color-accent); }
+.info-content h3 { font-family: var(--font-display); font-size: 1.2rem; margin-bottom: var(--space-xs); color: var(--color-text); }
+.info-content p { color: var(--color-muted); font-size: 0.95rem; }
+.info-content a { color: var(--color-accent); text-decoration: none; transition: color var(--transition-fast); }
+.info-content a:hover { color: var(--color-accent-secondary); }
+.contact-form { background: var(--color-bg); padding: var(--space-lg); border: 2px solid var(--color-border); border-radius: 20px; }
+.form-group { margin-bottom: var(--space-md); }
+.form-group label { display: block; margin-bottom: var(--space-xs); font-family: var(--font-display); font-weight: 600; color: var(--color-text); }
+.form-group input, .form-group textarea { width: 100%; padding: var(--space-sm); background: var(--color-surface); border: 2px solid var(--color-border); border-radius: 10px; font-family: var(--font-mono); font-size: 0.95rem; color: var(--color-text); transition: all var(--transition-fast); }
+.form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--color-accent); box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1); }
+.form-group textarea { min-height: 150px; resize: vertical; }
+.submit-btn { width: 100%; padding: var(--space-md); background: var(--color-accent); border: none; border-radius: 10px; font-family: var(--font-display); font-weight: 700; font-size: 1rem; color: white; cursor: pointer; transition: all var(--transition-medium); position: relative; overflow: hidden; }
+.submit-btn::before { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; background: var(--color-accent-secondary); border-radius: 50%; transform: translate(-50%, -50%); transition: width var(--transition-medium), height var(--transition-medium); }
+.submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3); }
+.submit-btn:hover::before { width: 300%; height: 300%; }
+.submit-btn span { position: relative; z-index: 1; }
+.submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.form-message { margin-top: var(--space-md); padding: var(--space-sm); border-radius: 10px; text-align: center; font-weight: 600; }
+.form-message.success { background: #d4edda; color: #155724; border: 2px solid #c3e6cb; }
+.form-message.error { background: #f8d7da; color: #721c24; border: 2px solid #f5c6cb; }
+.social-link { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; background: var(--color-bg); border: 2px solid var(--color-border); border-radius: 50%; color: var(--color-text); text-decoration: none; font-size: 1.3rem; transition: all var(--transition-fast); }
+.social-link:hover { border-color: var(--color-accent); background: var(--color-accent); color: white; transform: translateY(-5px); }
+.input-error {
+  color: #721c24;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+@media (max-width: 968px) {
+  .contact-container { grid-template-columns: 1fr; }
+  .contact-info { order: 2; }
+  .contact-form { order: 1; }
+}
+</style>
+
+<section id="contact" class="section contact-section">
+  <div class="container">
+    <div class="section-header animate-on-scroll fade-in-up">
+      <h2>{t.contact.title}</h2>
+      <p class="section-subtitle">{t.contact.subtitle}</p>
+    </div>
+
+    <div class="contact-container">
+      <div class="contact-info animate-on-scroll slide-in-left">
+        <div class="info-item">
+          <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+          <div class="info-content">
+            <h3>Email</h3>
+            <p><a href="mailto:juventinoeh@gmail.com">juventinoeh@gmail.com</a></p>
+          </div>
+        </div>
+        <div class="info-item">
+          <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+          </svg>
+          <div class="info-content">
+            <h3>{t.contact.phoneCard}</h3>
+            <p><a href="tel:+4422190365">+52 442-219-03-65</a></p>
+          </div>
+        </div>
+        <div class="info-item">
+          <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+          <div class="info-content">
+            <h3>{t.contact.location}</h3>
+            <p>Querétaro, México.</p>
+          </div>
+        </div>
+       
+      </div>
+
+      <div class="contact-form animate-on-scroll slide-in-right">
+
+      <form id="contactForm">
+        <input type="hidden" name="lang" value={lang} />
+
+        <div class="form-group">
+          <label for="name">{t.contact.name}</label>
+          <input
+            type="text"
+            id="name"
+            name="userFirstname"
+            placeholder="Username"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="email">{t.contact.email}</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="email"
+            required
+          />
+        </div>
+
+        <button type="submit" class="submit-btn" data-loading-text={t.contact.sending}>
+          <span id="submitText">{t.contact.send}</span>
+        </button>
+
+        <div
+          id="formMessage"
+          data-success-text={t.contact.success}
+          data-error-text={t.contact.error}
+          class="form-message"
+          style="display:none"
+        />
+      </form>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+import { actions } from "astro:actions";
+
+const form = document.getElementById("contactForm");
+const messageEl = document.getElementById("formMessage");
+const submitText = document.getElementById("submitText");
+
+if (!(form instanceof HTMLFormElement) || !messageEl || !submitText) {
+  throw new Error("Contact form elements not found");
+}
+
+const loadingText = submitText.closest("button")?.dataset.loadingText ?? submitText.textContent;
+const successText = messageEl.dataset.successText ?? "";
+const errorText = messageEl.dataset.errorText ?? "";
+const originalText = submitText.textContent ?? "";
+
+function clearErrors(formElement: HTMLFormElement) {
+  const errorElements = formElement.querySelectorAll(".input-error");
+  errorElements.forEach((el) => el.remove());
+  
+  const inputs = formElement.querySelectorAll("input[aria-describedby]");
+  inputs.forEach((input) => input.removeAttribute("aria-describedby"));
+}
+
+function showInputErrors(formElement: HTMLFormElement, inputErrors: Record<string, string[]>) {
+  
+  Object.keys(inputErrors).forEach((fieldName) => {
+    const input = formElement.querySelector(`[name="${fieldName}"]`);
+    const errorMessages = inputErrors[fieldName];
+        
+    if (input && errorMessages && errorMessages.length > 0) {
+      const errorId = `${fieldName}-error`;
+      input.setAttribute("aria-describedby", errorId);
+      
+      const errorP = document.createElement("p");
+      errorP.id = errorId;
+      errorP.className = "input-error";
+      errorP.textContent = errorMessages[0];
+      
+      input.parentElement?.appendChild(errorP);
+    }
+  });
+}
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  
+  clearErrors(form);
+  messageEl.style.display = "none";
+  
+  submitText.textContent = loadingText;
+
+  const formData = new FormData(form);
+  const result: any = await actions.send(formData);
+
+  if (result.error) {
+
+    if (result.error.fields && Object.keys(result.error.fields).length > 0) {
+      showInputErrors(form, result.error.fields);
+    } else {
+      // Error general del servidor
+      messageEl.textContent = errorText;
+      messageEl.className = "form-message error";
+      messageEl.style.display = "block";
+    }
+  } else {
+    // Exito
+    messageEl.textContent = successText;
+    messageEl.className = "form-message success";
+    messageEl.style.display = "block";
+    form.reset();
+  }
+
+  submitText.textContent = originalText;
+});
+</script>

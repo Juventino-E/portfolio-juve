@@ -1,0 +1,27 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
+import Content from '../components/Content.astro';
+import Projects from '../components/Projects.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+import { useTranslations } from '../i18n';
+
+const t = useTranslations('en');
+---
+
+<Layout 
+  title="Portfolio - Full Stack Developer" 
+  description="Personal portfolio of a Full Stack Developer passionate about creating exceptional web experiences with React, Astro, Node.js and more."
+  lang="en"
+>
+  <Navbar lang="en" t={t} />
+  <Hero t={t} />
+  <About t={t} />
+  <Content t={t} />
+  <Projects t={t} />
+  <Contact t={t} lang="en" />
+  <Footer t={t} />
+</Layout>

@@ -1,0 +1,248 @@
+---
+interface Props {
+  t: any;
+}
+
+const { t } = Astro.props;
+---
+
+<section class="hero">
+  <div class="hero-bg">
+    <!-- Grid animado -->
+    <div class="bg-grid"></div>
+
+    <!-- Shapes flotantes -->
+    <div class="floating-shapes" id="floatingShapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+    </div>
+
+    <!-- Partículas pequeñas -->
+    <div class="particles">
+      <div class="particle" style="top: 10%; left: 20%; animation-delay: 0s;"></div>
+      <div class="particle" style="top: 40%; left: 50%; animation-delay: 2s;"></div>
+      <div class="particle" style="top: 70%; left: 30%; animation-delay: 4s;"></div>
+      <div class="particle" style="top: 20%; left: 80%; animation-delay: 1s;"></div>
+      <div class="particle" style="top: 50%; left: 10%; animation-delay: 3s;"></div>
+    </div>
+  </div>
+
+  <!-- Contenido -->
+  <div class="hero-content">
+  <p class="greeting">{t.hero.greeting}</p>
+  <h1 class="name">Juventino Martínez</h1>
+  <p class="tagline">{t.hero.tagline}</p>
+
+  <div class="cta-wrapper">
+    <a href="#projects" class="btn btn-primary">{t.hero.cta}</a>
+    <a href="#contact" class="btn">{t.hero.cto}</a>
+  </div>
+
+  <!-- Social links debajo del CTA -->
+  <div class="hero-social-links">
+    <a href="https://github.com/Juventino-E" target="_blank" rel="noopener" aria-label="GitHub">
+      <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none">
+        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+      </svg>
+    </a>
+    <a href="https://linkedin.com/in/juventino-eduardo-martinez-hernandez" target="_blank" rel="noopener" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none">
+        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+        <rect x="2" y="9" width="4" height="12"/>
+        <circle cx="4" cy="4" r="2"/>
+      </svg>
+    </a>
+
+    <a href="#contact" aria-label="Contact">
+  <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none">
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+    <polyline points="22,6 12,13 2,6"/>
+  </svg>
+</a>
+
+  </div>
+</div>
+
+
+  <!-- Scroll indicator -->
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+    </svg>
+  </div>
+</section>
+
+<style>
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding-top: 5rem;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.hero-social-links {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease 0.8s forwards; 
+}
+
+.hero-social-links a {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.hero-social-links a:hover {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  transform: translateY(-3px);
+}
+
+
+/* Grid animado */
+.bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(59, 130, 246, 0.1) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(59, 130, 246, 0.1) 2px, transparent 2px);
+  background-size: 50px 50px;
+  animation: gridMove 20s linear infinite;
+  will-change: transform;
+}
+
+@keyframes gridMove {
+  0% { transform: translate3d(0,0,0); }
+  100% { transform: translate3d(50px,50px,0); }
+}
+
+/* Shapes flotantes */
+.floating-shapes {
+  position: absolute;
+  inset: 0;
+}
+
+.shape {
+  position: absolute;
+  will-change: transform;
+  border-radius: 50%;
+  mix-blend-mode: screen;
+  filter: blur(40px);
+}
+
+.shape-1 { width:200px; height:200px; background: rgba(59,130,246,0.6); }
+.shape-2 { width:150px; height:150px; background: rgba(16,185,129,0.5); }
+.shape-3 { width:100px; height:100px; background: rgba(245,158,11,0.4); }
+
+/* Partículas pequeñas */
+.particles {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  animation: drift 15s linear infinite;
+}
+
+@keyframes drift {
+  0% { transform: translate3d(0,0,0); opacity: 0.2; }
+  50% { transform: translate3d(200px,300px,0); opacity: 0.8; }
+  100% { transform: translate3d(0,0,0); opacity: 0.2; }
+}
+
+/* Hero content */
+.hero-content { text-align: center; max-width: 800px; padding: 0 1rem; z-index:1; }
+.greeting { font-size:1.2rem; color:#ccc; margin-bottom:.5rem; animation: fadeInUp 0.8s ease forwards; opacity:0;}
+.name {
+  font-size: clamp(3rem, 10vw, 6rem);
+  font-weight: 800;
+  margin-bottom: var(--space-sm);
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: fadeInUp 0.8s ease 0.2s forwards;
+  opacity: 0;
+}
+.tagline { font-size:clamp(1.2rem,3vw,2rem); color:#ccc; margin-bottom:1.5rem; animation: fadeInUp 0.8s ease 0.4s forwards; opacity:0;}
+.cta-wrapper { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; animation: fadeInUp 0.8s ease 0.6s forwards; opacity:0;}
+
+/* Scroll indicator */
+.scroll-indicator { position:absolute; bottom:2rem; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:.25rem; color:#ccc; font-size:.9rem; animation:bounce 2s infinite; }
+.scroll-indicator svg { width:24px; height:24px; }
+@keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0);} 50%{transform:translateX(-50%) translateY(-10px);} }
+
+/* fadeInUp */
+@keyframes fadeInUp { 0% {opacity:0; transform:translateY(20px);} 100% {opacity:1; transform:translateY(0);} }
+
+</style>
+
+<script type="module">
+if (typeof window !== 'undefined') {
+  const shapes = document.querySelectorAll('.shape');
+  const container = document.querySelector('.hero');
+
+  shapes.forEach((shape, index) => {
+    let x = Math.random() * (container.clientWidth - shape.offsetWidth);
+    let y = Math.random() * (container.clientHeight - shape.offsetHeight);
+
+    // velocidades aleatorias 
+    let speedFactor = 3 + Math.random() * 2; 
+    let vx = (Math.random() - 0.5) * speedFactor; 
+    let vy = (Math.random() - 0.5) * speedFactor;
+
+    shape.style.left = x + 'px';
+    shape.style.top = y + 'px';
+
+    function animate() {
+      x += vx;
+      y += vy;
+
+      // rebote horizontal
+      if(x < 0 || x + shape.offsetWidth > container.clientWidth) {
+        vx = -vx;
+        x = Math.max(0, Math.min(x, container.clientWidth - shape.offsetWidth));
+      }
+
+      // rebote vertical
+      if(y < 0 || y + shape.offsetHeight > container.clientHeight) {
+        vy = -vy;
+        y = Math.max(0, Math.min(y, container.clientHeight - shape.offsetHeight));
+      }
+
+      shape.style.left = x + 'px';
+      shape.style.top = y + 'px';
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  });
+}
+</script>

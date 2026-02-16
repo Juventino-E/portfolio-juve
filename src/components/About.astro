@@ -1,0 +1,182 @@
+---
+import { Image } from 'astro:assets';
+import JuvePhoto from '../images/juve.jpg';
+
+interface Props {
+  t: any;
+}
+
+const { t } = Astro.props;
+---
+
+<style>
+  .about-section {
+    position: relative;
+  }
+
+  .about-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    align-items: center;
+  }
+
+  .about-text h2 {
+    margin-bottom: var(--space-md);
+    position: relative;
+    display: inline-block;
+  }
+
+  .about-text h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 60%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-accent), var(--color-accent-secondary));
+  }
+
+  .about-text p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: var(--space-md);
+    color: var(--color-muted);
+  }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+  }
+
+  .stat-card {
+    padding: var(--space-md);
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: 10px;
+    transition: all var(--transition-medium);
+  }
+
+  .stat-card:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .stat-number {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--color-accent);
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 0.9rem;
+    color: var(--color-muted);
+  }
+
+  .about-image {
+    position: relative;
+    height: 500px;
+  }
+
+  .image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 3px solid var(--color-accent);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  }
+
+  .about-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  .image-decoration {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border: 3px solid var(--color-accent-tertiary);
+    border-radius: 20px;
+    z-index: -1;
+  }
+
+  .decoration-1 {
+    top: -20px;
+    left: -20px;
+  }
+
+  .decoration-2 {
+    bottom: -20px;
+    right: -20px;
+  }
+
+  @media (max-width: 968px) {
+    .about-content {
+      grid-template-columns: 1fr;
+    }
+
+    .about-image {
+      height: 400px;
+      order: -1;
+    }
+
+    .about-stats {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<section id="about" class="section about-section">
+  <div class="container">
+    <div class="about-content">
+      <div class="about-text animate-on-scroll fade-in-up">
+        <h2>{t.about.title}</h2>
+        <p>{t.about.content}</p>
+        <p>{t.about.description}</p>
+        <div class="about-stats">
+          <div class="stat-card">
+            <span class="stat-number">2+</span>
+            <span class="stat-label">{t.about.stats.years}</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number">2+</span>
+            <span class="stat-label">{t.about.stats.projects}</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number">1000+</span>
+            <span class="stat-label">{t.about.stats.clients}</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number">100%</span>
+            <span class="stat-label">{t.about.stats.dedication}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-image animate-on-scroll scale-in">
+        <div class="image-decoration decoration-1"></div>
+        <div class="image-wrapper">
+          <Image 
+            src={JuvePhoto} 
+            alt="Juve Hernández" 
+            width={500} 
+            height={500} 
+            class="about-photo"
+            format="webp"  
+          />
+        </div>
+        <div class="image-decoration decoration-2"></div>
+      </div>
+    </div>
+  </div>
+</section>
