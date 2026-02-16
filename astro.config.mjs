@@ -1,4 +1,4 @@
-import vercel from '@astrojs/vercel';
+import vercel from '@astrojs/vercel/serverless'; 
 import { defineConfig } from 'astro/config';
 
 import react from '@astrojs/react';
@@ -15,7 +15,7 @@ export default defineConfig({
     }
   },
 
-  site: process.env.SITE_URL || 'http://localhost:4321',
+  site: 'https://portfolio-juve.vercel.app',
   trailingSlash: 'never',
 
   build: {

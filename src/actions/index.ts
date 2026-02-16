@@ -92,7 +92,7 @@ export const server = {
       console.error("❌ Resend error:", error);
       throw new ActionError({
         code: "BAD_REQUEST",
-        message: error.message,
+        message: `Resend Error: ${error.message} | Status: ${error.statusCode || 'N/A'}`,
       });
     }
 
