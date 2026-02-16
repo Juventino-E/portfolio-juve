@@ -1,6 +1,4 @@
 ---
-import { Image } from 'astro:assets';
-import JuvePhoto from '../images/juve.jpg';
 
 interface Props {
   t: any;
@@ -166,13 +164,11 @@ const { t } = Astro.props;
       <div class="about-image animate-on-scroll scale-in">
         <div class="image-decoration decoration-1"></div>
         <div class="image-wrapper">
-          <Image 
-            src={JuvePhoto} 
+           <img 
+            src="/juve.jpg"
             alt="Juve Hernández" 
-            width={500} 
-            height={500} 
             class="about-photo"
-            format="webp"  
+            loading="lazy"
           />
         </div>
         <div class="image-decoration decoration-2"></div>
