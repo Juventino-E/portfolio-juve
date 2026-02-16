@@ -100,7 +100,7 @@ const { t, lang = "es" } = Astro.props;
 
       <div class="contact-form animate-on-scroll slide-in-right">
 
-      <form id="contactForm" method="post" action="/_actions/send">
+      <form id="contactForm" method="post">
         <input type="hidden" name="lang" value={lang} />
 
         <div class="form-group">
@@ -144,10 +144,8 @@ const { t, lang = "es" } = Astro.props;
 </section>
 
 <script>
-
-  console.log("🔥 SCRIPT LOADED!");
+console.log("🔥 SCRIPT LOADED!");
 import { actions } from "astro:actions";
-console.log("✅ Actions imported:", actions);
 
 const form = document.getElementById("contactForm");
 const messageEl = document.getElementById("formMessage");
@@ -171,7 +169,6 @@ function clearErrors(formElement: HTMLFormElement) {
 }
 
 function showInputErrors(formElement: HTMLFormElement, inputErrors: Record<string, string[]>) {
-  
   Object.keys(inputErrors).forEach((fieldName) => {
     const input = formElement.querySelector(`[name="${fieldName}"]`);
     const errorMessages = inputErrors[fieldName];
@@ -192,6 +189,7 @@ function showInputErrors(formElement: HTMLFormElement, inputErrors: Record<strin
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
+  console.log("🚀 Form submitted!");
   
   clearErrors(form);
   messageEl.style.display = "none";
@@ -199,26 +197,40 @@ form.addEventListener("submit", async (e) => {
   submitText.textContent = loadingText;
 
   const formData = new FormData(form);
-  const result: any = await actions.send(formData);
-
-  if (result.error) {
-
-    if (result.error.fields && Object.keys(result.error.fields).length > 0) {
-      showInputErrors(form, result.error.fields);
+  
+  console.log("Calling actions.send...");
+  
+  try {
+    const result: any = await actions.send(formData);  // ⬅️ : any aquí
+    
+    console.log("📦 Full result:", result);
+    
+    if (result.error) {
+      console.error("❌ Error received:", result.error);
+      
+      if (result.error.fields && Object.keys(result.error.fields).length > 0) {
+        showInputErrors(form, result.error.fields);
+      } else {
+        messageEl.textContent = result.error.message || errorText;
+        messageEl.className = "form-message error";
+        messageEl.style.display = "block";
+      }
     } else {
-      // Error general del servidor
-      messageEl.textContent = errorText;
-      messageEl.className = "form-message error";
+      console.log("✅ Success:", result.data);
+      messageEl.textContent = successText;
+      messageEl.className = "form-message success";
       messageEl.style.display = "block";
+      form.reset();
     }
-  } else {
-    // Exito
-    messageEl.textContent = successText;
-    messageEl.className = "form-message success";
+  } catch (err) {
+    console.error("💥 Catch error:", err);
+    messageEl.textContent = errorText;
+    messageEl.className = "form-message error";
     messageEl.style.display = "block";
-    form.reset();
   }
 
   submitText.textContent = originalText;
 });
+
+console.log("✅ Event listener registered!");
 </script>
