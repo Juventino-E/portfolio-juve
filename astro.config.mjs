@@ -18,7 +18,7 @@ export default defineConfig({
     }
   },
   
-  site: 'https://portfolio-juve.vercel.app',
+  site: 'https://www.juvedev.com',
   trailingSlash: 'never',
   
   build: {
