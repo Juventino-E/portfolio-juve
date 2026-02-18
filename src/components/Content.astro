@@ -363,13 +363,16 @@ const techCategories = [
                 class="tech-item" 
                 style={`--tech-color: ${tech.color}; animation-delay: ${(catIndex * 0.1) + (techIndex * 0.05)}s`}
               >
-                {<img 
-                  loading="lazy"
-                  decoding="async"
-                  src={`https://cdn.simpleicons.org/${tech.icon}`}
-                  alt={tech.name}
-                  class="tech-icon-large"
-                />}
+                {tech.icon && (
+                  <img
+                    loading="lazy"
+                    decoding="async"
+                    src={`https://cdn.simpleicons.org/${tech.icon}`}
+                    alt={tech.name}
+                    class="tech-icon-large"
+                    onerror="this.remove()"
+                  />
+                )}
                 <span class="tech-name">{tech.name}</span>
               </div>
             ))}
